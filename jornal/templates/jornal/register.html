@@ -1,0 +1,31 @@
+{% extends './main-guest.html' %}
+    {% block content %}
+        <div class="container">
+            <h1>Criar conta</h1>
+            <a href="{% url 'jornal:login' %}">Login</a>
+            <form action="{% url 'jornal:register' %}" method="post">
+                {% csrf_token %}
+                <div class=mb-3>
+                    <label for="username" class="form-label">Nome de usuário</label>
+                    {{ user_form.username }}
+                    {% if user_form.errors.username%}
+                    <div class="alert alert-danger my-3" role="alert">
+                        {{user_form.errors.username}}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class=mb-3>
+                    <label for="email" class="form-label">Email</label>
+                    {{ user_form.email }}
+                    {{user_form.errors.email}}
+                </div>
+                <div class=mb-3>
+                    <label for="password" class="form-label">Senha</label>
+                    {{ user_form.password }}
+                    {{user_form.errors.password}}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </form>
+        </div>
+    {% endblock%}

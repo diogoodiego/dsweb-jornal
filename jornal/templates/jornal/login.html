@@ -1,0 +1,37 @@
+{% extends './main-guest.html' %}
+    {% block content%}
+        <div class="container">
+            <h1>Entrar</h1>
+            <form action="{% url 'jornal:login' %}" method="post">
+                {% csrf_token%}
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{user_form.email}}
+                    {% if user_form.errors.email %}
+                    <div class="alert alert-danger my-3" role="alert">
+                        {{ user_form.errors.email }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    {{user_form.password}}
+                    {% if user_form.errors.password %}
+                    <div class="alert alert-danger my-3" role="alert">
+                        {{ user_form.errors.password }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Ooops...</h5>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <button class="btn btn-primary" type="submit">Entrar</button>
+            </form>
+        </div>
+    {% endblock %}
