@@ -25,9 +25,9 @@
         {%if noticias %}
         <div class="row py-3">
             {% for noticia in noticias%}
-            <div class="col-4">
+            <div class="col-4 mb-3">
                 <a href="{% url 'jornal:noticia_detalhe' noticia.id %}" class="card text-decoration-none">
-                    <img src="{{ noticia.imagem.url }}" class="card-img-top" alt="...">
+                    <img src="{{ noticia.imagem.url }}" class="card-img-top" style="aspect-ratio: 16/9;object-fit: cover;" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{noticia.titulo}}</h5>
                     </div>
