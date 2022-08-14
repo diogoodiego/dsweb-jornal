@@ -4,7 +4,8 @@
             <h1>Entrar</h1>
             <form action="{% url 'jornal:login' %}" method="post">
                 {% csrf_token%}
-                <div class="mb-3">
+                {{login_form.as_p}}
+                <!-- <div class="mb-3">
                     <label class="form-label">Email</label>
                     {{user_form.email}}
                     {% if user_form.errors.email %}
@@ -30,7 +31,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-
+ -->
                 <button class="btn btn-primary" type="submit">Entrar</button>
             </form>
         </div>

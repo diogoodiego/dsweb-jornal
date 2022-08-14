@@ -3,9 +3,10 @@
         <div class="container">
             <h1>Criar conta</h1>
             <a href="{% url 'jornal:login' %}">Login</a>
-            <form action="{% url 'jornal:register' %}" method="post">
+            <form action="{% url 'jornal:register' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class=mb-3>
+                {{ usuario_form.as_p }}
+                <!-- <div class=mb-3>
                     <label for="username" class="form-label">Nome de usuário</label>
                     {{ user_form.username }}
                     {% if user_form.errors.username%}
@@ -14,16 +15,30 @@
                     </div>
                     {% endif %}
                 </div>
+
                 <div class=mb-3>
                     <label for="email" class="form-label">Email</label>
                     {{ user_form.email }}
                     {{user_form.errors.email}}
                 </div>
+
                 <div class=mb-3>
                     <label for="password" class="form-label">Senha</label>
                     {{ user_form.password }}
                     {{user_form.errors.password}}
                 </div>
+
+                <div class=mb-3>
+                    <label for="password" class="form-label">Tipo de conta</label>
+                    {{ usuario_form.tipo }}
+                    {{ usuario_form.errors.tipo }}
+                </div>
+
+                <div class=mb-3>
+                    <label for="imagem" class="form-label">Imagem</label>
+                    {{ usuario_form.imagem }}
+                    {{ usuario_form.errors.imagem }}
+                </div> -->
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
