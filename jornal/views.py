@@ -10,10 +10,15 @@ from .forms import UsuarioForm, LoginForm
 
 
 def index(request):
-    return render(request,"jornal/index.html")
+    noticias = Noticia.objects.order_by('-data_hora')
+    contexto = {"user":request.user, "noticias":noticias}
+    return render(request,"jornal/index.html",contexto)
 
 class login_view(TemplateView):
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('jornal:home')
+            
         login_form = LoginForm
         contexto ={
             'login_form':login_form,
@@ -41,6 +46,9 @@ class login_view(TemplateView):
 
 class register_view(TemplateView):
     def get(self,request):
+        if request.user.is_authenticated:
+            return redirect('jornal:home')
+
         usuario_form = UsuarioForm
         contexto = {
             'usuario_form':usuario_form
@@ -105,3 +113,12 @@ class noticia_detalhe(TemplateView):
         noticia = get_object_or_404(Noticia, pk=noticia_id)
         return render(request, "jornal/noticia/detalhe.html", {"noticia":noticia})
 
+
+class test_view(TemplateView):
+    def get(self,request):
+        return render(request,"jornal/test.html")
+        
+    def post(self, request):
+        item = request.POST.getlist('item')
+        print(item)
+        return redirect("jornal:test")

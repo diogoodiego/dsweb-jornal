@@ -1,8 +1,37 @@
 {% extends './main-guest.html' %}
     {% block content %}
+        <div class="container-fluid bg-light d-flex align-items-center" style="min-height: 70vh;">
+            <div class="container">
+                <h1>Bem vindo ao <b>Jornal</b></h1>
+                <nav class="d-flex flex-row mt-5 gap-3">
+                    <a href="{% url 'jornal:register' %}" class="btn btn-primary">Criar conta</a>
+                    <a href="{% url 'jornal:login' %}" class="btn btn-light">Entrar</a>
+                </nav>
+            </div>
+        </div>
+        
         <div class="container mt-5">
-            <h1>Hello, world. You're at the Jornal.</h1>
-            <a href="{% url 'jornal:register' %}" class="btn btn-primary">Create Account</a>
+            {%if noticias %}
+            <div class="row py-3">
+                {% for noticia in noticias%}
+                <div class="col-4 mb-3">
+                    <a href="{% url 'jornal:noticia_detalhe' noticia.id %}" class="card text-decoration-none">
+                        <img src="{{ noticia.imagem.url }}" class="card-img-top" style="aspect-ratio: 16/9;object-fit: cover;"
+                            alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{noticia.titulo}}</h5>
+                        </div>
+                        <div class="card-footer d-flex text-muted py-3">
+                            <img src="{{ noticia.autor.imagem.url}}" style="height:24px;width:24px"
+                                class="rounded-circle border border-3 border-primary" />
+                            <span class="ps-2">Por {{noticia.autor.user.username}}</span>
+                        </div>
+                    </a>
+                </div>
+        
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
     {% endblock %}
 
