@@ -31,12 +31,12 @@ class login_view(TemplateView):
             print(login_form.data['username'])
             print(login_form.data['password'])
             user = authenticate(request, username=login_form.data['username'], password=login_form.data['password'])
-            print(user)   
             if user is not None:
                 print('here')
                 login(request, user)
                 return redirect('jornal:home')
-            
+            else:
+                messages.error(request, 'Credenciais inválidas')
         contexto ={
             'login_form':login_form,
         }
