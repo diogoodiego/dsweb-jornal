@@ -1,7 +1,45 @@
-<h1>{{ noticia.titulo }}</h1>
-<img src="{{ noticia.imagem.url }}" style="height:100px" />
-<div>
-    <img src="{{ noticia.autor.imagem.url}}" style="height:24px"/>
-    <p>{{noticia.autor.user.username}}</p>
+{% extends '../main-logged.html' %}
+{% block content %}
+<div class="container my-5">
+    <div class="row gap-5">
+        <div class="col-12 col-md-8">
+            <h1>{{ noticia.titulo }}</h1>
+            <img src="{{ noticia.imagem.url }}" style="width: 100%; aspect-ratio: 16/9; object-fit: cover;" />
+            <div>
+                <img src="{{ noticia.autor.imagem.url}}" style="height:24px" />
+                <p>{{noticia.autor.user.username}}</p>
+            </div>
+            <p>{{ noticia.texto }}</p>
+        </div>
+
+        <div class="col">
+            <p>Últimas notícias</p>
+            {%if ultimas_noticias %}
+            <div class="">
+                {% for not in ultimas_noticias %}
+                {% if not.id != noticia.id %}
+                <div class="card border-0 mb-3">
+                    <div class="row">
+                        <div class="col"><img src="{{ not.imagem.url }}" style="width: 100%; aspect-ratio: 4/3; object-fit: cover;" ></div>
+                        <div class="col">{{not.titulo}}</div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+    {% if request.user.usuario %}
+        <div class="container">
+            <input type="text" placeholder="Adicione um comentrio...">
+        </div>
+    {% else %}
+    <div class="card p-5">
+        <p>Acesse sua conta e participe da conversa</p>
+        <a class="btn btn-secondary" href="{% url 'jornal:login' %}">Fazer login</a>
+    </div>
+    {% endif %}
 </div>
-<p>{{ noticia.texto }}</p>
+{% endblock %}

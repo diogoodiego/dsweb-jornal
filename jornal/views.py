@@ -111,7 +111,9 @@ class noticia_view(TemplateView):
 class noticia_detalhe(TemplateView):
     def get(self, request,noticia_id):
         noticia = get_object_or_404(Noticia, pk=noticia_id)
-        return render(request, "jornal/noticia/detalhe.html", {"noticia":noticia})
+        noticias = Noticia.objects.order_by('-data_hora')[:5]
+        contexto = {"user":request.user, "noticia":noticia, "ultimas_noticias":noticias}
+        return render(request, "jornal/noticia/detalhe.html", contexto)
 
 
 class test_view(TemplateView):

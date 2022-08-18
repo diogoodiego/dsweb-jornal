@@ -12,11 +12,17 @@
 <body>
     <nav class="container-fluid bg-white position-sticky">
         <div class="container py-3 d-flex flex-row justify-content-between align-items-center">
+          {% if request.user.usuario %}
             <a class="navbar-brand" href="{% url 'jornal:home' %}">Jornal</a>
+          {% else %}
+            <a class="navbar-brand" href="{% url 'jornal:index' %}">Jornal</a>
+          {% endif %}
     
             <nav class="d-flex flex-row gap-2">
-                <img src="{{user.usuario.imagem.url}}" style="height:24px;width:24px;" class="rounded-circle border border-3 border-primary"/>
-                <span>{{user.username}}</span>
+              {% if request.user.usuario %}
+              <img src="{{user.usuario.imagem.url}}" style="height:24px;width:24px;" class="rounded-circle border border-3 border-primary"/>
+              <span>{{user.username}}</span>
+              {% endif %}
             </nav>
     
         </div>
