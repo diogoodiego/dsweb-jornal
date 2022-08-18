@@ -7,11 +7,26 @@
         <a href="{% url 'jornal:noticia' %}" class="btn btn-primary"> + noticia</a>
     </nav>
 
+    <!-- CARDS DE NOTICIA -->
     {%if noticias %}
     <div class="row py-3">
         {% for noticia in noticias%}
+        <!-- CARD -->
         <div class="col-4 mb-3">
-            <a href="{% url 'jornal:noticia_detalhe' noticia.id %}" class="card text-decoration-none">
+            <div class="card border-0 gap-3 mb-3">
+                <img src="{{ noticia.imagem.url }}" class="card-img-top rounded-3" style="aspect-ratio: 16/9;object-fit: cover;" alt="...">
+                <!-- CARD TEXT -->
+                <a href="{% url 'jornal:noticia_detalhe' noticia.id %}" class="text-decoration-none"><h5 class="card-title">{{noticia.titulo}}</h5></a>
+                <div class="d-flex">
+                    <img src="{{ noticia.autor.imagem.url}}" style="height:24px;width:24px"
+                    class="rounded-circle border border-3 border-primary" />
+                    <span class="ps-2">Por {{noticia.autor.user.username}} - {{noticia.data_hora}}</span>
+                </div>
+                <!-- CARD TEXT -->
+            </div>
+
+
+            <!-- <a href="{% url 'jornal:noticia_detalhe' noticia.id %}" class="card text-decoration-none text-dark border-0">
                 <img src="{{ noticia.imagem.url }}" class="card-img-top" style="aspect-ratio: 16/9;object-fit: cover;"
                     alt="...">
                 <div class="card-body">
@@ -22,12 +37,13 @@
                         class="rounded-circle border border-3 border-primary" />
                     <span class="ps-2">Por {{noticia.autor.user.username}}</span>
                 </div>
-            </a>
+            </a> -->
         </div>
-
+        <!-- CARD -->
         {% endfor %}
     </div>
     {% endif %}
+    <!-- CARDS DE NOTICIA -->
 </div>
 {% endblock %}
 

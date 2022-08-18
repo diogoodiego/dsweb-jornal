@@ -30,7 +30,11 @@
                     <img src="{{ comentario.usuario.imagem.url }}" alt="" class="rounded-5"
                         style="height: 32px;width: 32px;object-fit: cover;">
                     <div>
+                        {%if comentario.usuario.user.username == request.user.username %}
                         <span><b>{{ comentario.usuario.user.username }}</b> <small class="text-muted"> - {{ comentario.data_hora }}</small> </span>
+                        {% else %}
+                        <span>{{ comentario.usuario.user.username }} <small class="text-muted"> - {{ comentario.data_hora }}</small> </span>
+                        {% endif%}
                         <p>{{ comentario.texto }}</p>
                     </div>
 
