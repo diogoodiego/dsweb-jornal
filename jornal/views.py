@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Usuario, Noticia, Edicao
+from .models import Usuario, Noticia, Edicao, Comentario
 from django.utils import timezone
 from .forms import UsuarioForm, LoginForm
 
@@ -112,8 +112,23 @@ class noticia_detalhe(TemplateView):
     def get(self, request,noticia_id):
         noticia = get_object_or_404(Noticia, pk=noticia_id)
         noticias = Noticia.objects.order_by('-data_hora')[:5]
-        contexto = {"user":request.user, "noticia":noticia, "ultimas_noticias":noticias}
+        comentarios = Comentario.objects.filter(noticia=noticia_id)
+        contexto = {"user":request.user, "noticia":noticia, "ultimas_noticias":noticias,"comentarios":comentarios}
         return render(request, "jornal/noticia/detalhe.html", contexto)
+
+    def post(self, request, noticia_id):
+        texto = request.POST['texto']
+        data_hora = timezone.now()
+        noticia = get_object_or_404(Noticia, pk=noticia_id)
+        comentario = Comentario(
+            texto=texto,
+            data_hora=data_hora,
+            noticia=noticia,
+            usuario=request.user.usuario
+        )
+        print("save")
+        comentario.save()
+        return redirect('jornal:noticia_detalhe',noticia_id)
 
 
 class test_view(TemplateView):

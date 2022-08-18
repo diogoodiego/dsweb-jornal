@@ -2,14 +2,48 @@
 {% block content %}
 <div class="container my-5">
     <div class="row gap-5">
-        <div class="col-12 col-md-8">
-            <h1>{{ noticia.titulo }}</h1>
-            <img src="{{ noticia.imagem.url }}" style="width: 100%; aspect-ratio: 16/9; object-fit: cover;" />
-            <div>
-                <img src="{{ noticia.autor.imagem.url}}" style="height:24px" />
-                <p>{{noticia.autor.user.username}}</p>
+        <div class="col-12 col-md-7">
+            <div class="my-5">
+                <div class="d-flex gap-3">
+                    <img src="{{ noticia.autor.imagem.url}}" class="rounded-5" style="height:24px" />
+                    <p>Por {{noticia.autor.user.username}} - {{noticia.data_hora}}</p>
+                </div>
+                <h2 class="mb-3">{{ noticia.titulo }}</h2>
+                <img src="{{ noticia.imagem.url }}" class="mb-3 rounded-4" style="width: 100%; aspect-ratio: 16/9; object-fit: cover;" />
+                <p>{{ noticia.texto }}</p>
             </div>
-            <p>{{ noticia.texto }}</p>
+
+
+            {% if request.user.usuario %}
+            <h5>Comentários ({{ comentarios.count }})</h5>
+            <form action="{% url 'jornal:noticia_detalhe' noticia.id %}" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input name="texto" type="text" class="form-control" placeholder="Adicione um comentário..."
+                        required>
+                    <button class="btn btn-primary" type="submit">Enviar</button>
+                </div>
+            </form>
+            <div class="my-5">
+                {% for comentario in comentarios %}
+                <div class="nav gap-3">
+                    <img src="{{ comentario.usuario.imagem.url }}" alt="" class="rounded-5"
+                        style="height: 32px;width: 32px;object-fit: cover;">
+                    <div>
+                        <span><b>{{ comentario.usuario.user.username }}</b> <small class="text-muted"> - {{ comentario.data_hora }}</small> </span>
+                        <p>{{ comentario.texto }}</p>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="card p-5">
+                <p>Acesse sua conta e participe da conversa</p>
+                <a class="btn btn-secondary" href="{% url 'jornal:login' %}">Fazer login</a>
+            </div>
+            {% endif %}
         </div>
 
         <div class="col">
@@ -18,10 +52,15 @@
             <div class="">
                 {% for not in ultimas_noticias %}
                 {% if not.id != noticia.id %}
-                <div class="card border-0 mb-3">
+                <div class="card border-0 mb-5">
                     <div class="row">
-                        <div class="col"><img src="{{ not.imagem.url }}" style="width: 100%; aspect-ratio: 4/3; object-fit: cover;" ></div>
-                        <div class="col">{{not.titulo}}</div>
+                        <div class="col-5"><img src="{{ not.imagem.url }}"
+                                style="width: 100%; aspect-ratio: 4/3; object-fit: cover;"></div>
+                        <div class="col d-flex flex-column">
+                            <small>{{not.edicao}}</small>
+                            <span><b>{{not.titulo}}</b></span>
+                            <span>Por {{not.autor}}</span>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
@@ -29,17 +68,8 @@
             </div>
             {% endif %}
         </div>
-        
+
     </div>
-    {% if request.user.usuario %}
-        <div class="container">
-            <input type="text" placeholder="Adicione um comentrio...">
-        </div>
-    {% else %}
-    <div class="card p-5">
-        <p>Acesse sua conta e participe da conversa</p>
-        <a class="btn btn-secondary" href="{% url 'jornal:login' %}">Fazer login</a>
-    </div>
-    {% endif %}
+
 </div>
 {% endblock %}
