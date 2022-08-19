@@ -1,7 +1,13 @@
 {% extends './main-guest.html' %}
+    {% block navbar %}
+
+    {% endblock %}
+
     {% block content%}
-        <div class="container">
-            <h1>Entrar</h1>
+
+        <div class="container col-12 col-md-5 col-lg-3 d-flex flex-column justify-content-center py-5" style="height: 100%;">
+            <h1 class="text-center">Entrar</h1>
+            <p class="text-center">Ainda não possui uma conta? <a href="{% url 'jornal:register' %}">Criar</a></p>
             <form action="{% url 'jornal:login' %}" method="post">
                 {% if messages %}
                 <ul class="messages">
@@ -12,34 +18,8 @@
                 {% endif %}
                 {% csrf_token%}
                 {{login_form.as_p}}
-                <!-- <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    {{user_form.email}}
-                    {% if user_form.errors.email %}
-                    <div class="alert alert-danger my-3" role="alert">
-                        {{ user_form.errors.email }}
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Senha</label>
-                    {{user_form.password}}
-                    {% if user_form.errors.password %}
-                    <div class="alert alert-danger my-3" role="alert">
-                        {{ user_form.errors.password }}
-                    </div>
-                    {% endif %}
-                </div>
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-danger" role="alert">
-                            <h5>Ooops...</h5>
-                            <span>{{ message }}</span>
-                        </div>
-                    {% endfor %}
-                {% endif %}
- -->
-                <button class="btn btn-primary" type="submit">Entrar</button>
+                <button class="btn btn-primary p-3 w-100 mb-3" type="submit">Entrar</button>
+                <a href="{% url 'jornal:index' %}" class="btn btn-light p-3 w-100 text-muted">Voltar</a>
             </form>
         </div>
     {% endblock %}

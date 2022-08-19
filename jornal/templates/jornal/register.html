@@ -1,11 +1,43 @@
 {% extends './main-guest.html' %}
+    {% block navbar %}
+
+    {% endblock %}
     {% block content %}
-        <div class="container">
-            <h1>Criar conta</h1>
-            <a href="{% url 'jornal:login' %}">Login</a>
+        <div class="container col-12 col-md-5 col-lg-3 d-flex flex-column justify-content-center py-5" style="height: 100%;">
+            <h1 class="text-center">Criar conta</h1>
+            <p class="text-center">Já possui conta? <a href="{% url 'jornal:login' %}">Entrar</a></p>
             <form action="{% url 'jornal:register' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ usuario_form.as_p }}
+
+                {{ usuario_form.errors.username }}
+                <div class="form-floating mb-3">
+                    {{ usuario_form.username }}
+                    <label for="floatingInput">Nome de usuário</label>
+                </div>
+                
+                {{ usuario_form.errors.email }}
+                <div class="form-floating mb-3">
+                    {{ usuario_form.email }}
+                    <label for="floatingInput">Email</label>
+                </div>
+
+                {{ usuario_form.errors.password }}
+                <div class="form-floating mb-3">
+                    {{ usuario_form.password }}
+                    <label for="floatingInput">Senha</label>
+                </div>
+
+                {{ usuario_form.errors.tipo }}
+                <div class="form-floating mb-3">
+                    {{ usuario_form.tipo }}
+                    <label for="floatingInput">Tipo</label>
+                </div>
+                
+                {{ usuario_form.errors.imagem }}   
+                <div class="form-floating mb-3">
+                    {{ usuario_form.imagem }}    
+                </div>
+
                 <!-- <div class=mb-3>
                     <label for="username" class="form-label">Nome de usuário</label>
                     {{ user_form.username }}
@@ -40,7 +72,9 @@
                     {{ usuario_form.errors.imagem }}
                 </div> -->
 
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="submit" class="btn btn-primary p-3 w-100 mb-3">Cadastrar</button>
+                <a href="{% url 'jornal:index' %}" class="btn btn-light p-3 w-100 text-muted">Voltar</a>
+
             </form>
         </div>
     {% endblock%}

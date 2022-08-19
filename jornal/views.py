@@ -28,8 +28,6 @@ class login_view(TemplateView):
     def post(self, request):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            print(login_form.data['username'])
-            print(login_form.data['password'])
             user = authenticate(request, username=login_form.data['username'], password=login_form.data['password'])
             if user is not None:
                 print('here')
